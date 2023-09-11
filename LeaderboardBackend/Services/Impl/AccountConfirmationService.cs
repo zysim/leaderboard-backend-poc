@@ -57,7 +57,6 @@ public class AccountConfirmationService : IAccountConfirmationService
                 "Confirm Your Account",
                 GenerateAccountConfirmationEmailBody(user, newConfirmation)
             );
-            await _applicationContext.SaveChangesAsync();
         }
         catch
         {
@@ -66,6 +65,7 @@ public class AccountConfirmationService : IAccountConfirmationService
             return new EmailFailed();
         }
 
+        await _applicationContext.SaveChangesAsync();
         return newConfirmation;
     }
 
