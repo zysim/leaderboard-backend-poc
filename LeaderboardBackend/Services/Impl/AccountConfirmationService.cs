@@ -71,7 +71,6 @@ public class AccountConfirmationService : IAccountConfirmationService
 
     private string GenerateAccountConfirmationEmailBody(User user, AccountConfirmation confirmation)
     {
-        // Copy of https://datatracker.ietf.org/doc/html/rfc7515#page-55
         UriBuilder builder = new(_appConfig.WebsiteUrl);
         builder.Path = "confirm-account";
         builder.Query = $"code={confirmation.Id.ToUrlSafeBase64String()}";
