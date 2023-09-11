@@ -1,5 +1,6 @@
 using LeaderboardBackend.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Options;
 using NodaTime;
 
@@ -47,7 +48,7 @@ public class AccountConfirmationService : IAccountConfirmationService
                 UserId = user.Id,
             };
 
-        _applicationContext.AccountConfirmations.Add(newConfirmation);
+        EntityEntry<AccountConfirmation> entry = _applicationContext.AccountConfirmations.Add(newConfirmation);
 
         try
         {
@@ -60,7 +61,7 @@ public class AccountConfirmationService : IAccountConfirmationService
         }
         catch
         {
-            _applicationContext.AccountConfirmations.Entry(newConfirmation).State = EntityState.Detached;
+            entry.State = EntityState.Detached;
             // TODO: Log/otherwise handle the fact that the email failed to be queued - zysim
             return new EmailFailed();
         }
