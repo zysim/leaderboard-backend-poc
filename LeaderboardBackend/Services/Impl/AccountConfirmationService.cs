@@ -71,9 +71,12 @@ public class AccountConfirmationService : IAccountConfirmationService
 
     private string GenerateAccountConfirmationEmailBody(User user, AccountConfirmation confirmation)
     {
-        UriBuilder builder = new(_appConfig.WebsiteUrl);
-        builder.Path = "confirm-account";
-        builder.Query = $"code={confirmation.Id.ToUrlSafeBase64String()}";
+        UriBuilder builder = new(_appConfig.WebsiteUrl)
+        {
+            Path = "confirm-account",
+            Query = $"code={confirmation.Id.ToUrlSafeBase64String()}"
+        };
+
         return $@"Hi {user.Username},<br/><br/>Click <a href=""{builder.Uri.ToString()}"">here</a> to confirm your account.";
     }
 }
