@@ -40,15 +40,15 @@ public class AccountConfirmationService : IAccountConfirmationService
 
         Instant now = _clock.GetCurrentInstant();
 
-        AccountConfirmation newConfirmation =
-            new()
-            {
-                CreatedAt = now,
-                ExpiresAt = now + Duration.FromHours(1),
-                UserId = user.Id,
-            };
+        AccountConfirmation newConfirmation = new()
+        {
+            CreatedAt = now,
+            ExpiresAt = now + Duration.FromHours(1),
+            UserId = user.Id,
+        };
 
-        EntityEntry<AccountConfirmation> entry = _applicationContext.AccountConfirmations.Add(newConfirmation);
+        await _applicationContext.AccountConfirmations.AddAsync(newConfirmation);
+        await _applicationContext.SaveChangesAsync();
 
         try
         {
@@ -60,12 +60,10 @@ public class AccountConfirmationService : IAccountConfirmationService
         }
         catch
         {
-            entry.State = EntityState.Detached;
             // TODO: Log/otherwise handle the fact that the email failed to be queued - zysim
             return new EmailFailed();
         }
 
-        await _applicationContext.SaveChangesAsync();
         return newConfirmation;
     }
 
