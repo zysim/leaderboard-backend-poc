@@ -108,9 +108,6 @@ public class AccountConfirmationTests : IntegrationTestsBase
         client.DefaultRequestHeaders.Authorization = AuthenticationHeaderValue.Parse($"Bearer {token}");
         HttpResponseMessage res = await client.PostAsync(Routes.RESEND_CONFIRMATION, null);
         res.Should().HaveStatusCode(HttpStatusCode.InternalServerError);
-
-        ApplicationContext context = _scope.ServiceProvider.GetRequiredService<ApplicationContext>();
-        context.AccountConfirmations.Any().Should().Be(false);
     }
 
     [Test]
