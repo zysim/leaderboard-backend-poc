@@ -54,7 +54,7 @@ public class RunsController(
     [SwaggerResponse(422, null, Type = typeof(ValidationProblemDetails))]
     public async Task<ActionResult<RunViewModel>> CreateRun(
         [FromRoute] long id,
-        [FromServices] IValidator<CreateRunRequest> validator
+        [FromBody] CreateRunRequest request
     )
     {
         GetUserResult res = await userService.GetUserFromClaims(HttpContext.User);
@@ -87,31 +87,6 @@ public class RunsController(
                     );
             }
 
-            try
-            {
-                CreateRunRequest? request = await JsonSerializer
-                    .DeserializeAsync<CreateRunRequest>(
-                        Request.Body,
-                        options.Value.JsonSerializerOptions
-                    );
-
-                if (request is null)
-                {
-                    return UnprocessableEntity();
-                }
-
-                ValidationResult validationResult = await validator.ValidateAsync(request);
-                if (!validationResult.IsValid)
-                {
-                    ModelStateDictionary dictionary = new();
-                    validationResult.AddToModelState(dictionary);
-                    return UnprocessableEntity(
-                        ProblemDetailsFactory.CreateValidationProblemDetails(
-                            HttpContext,
-                            dictionary
-                        )
-                    );
-                }
 
                 CreateRunResult r = await runService.CreateRun(user, category, request);
                 return r.Match<ActionResult>(
@@ -137,11 +112,6 @@ public class RunsController(
                         )
                     )
                 );
-            }
-            catch (JsonException)
-            {
-                return UnprocessableEntity();
-            }
         }
 
         return Unauthorized();
