@@ -3,7 +3,6 @@ using System.Text.Json;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using FluentValidation.Results;
-using LeaderboardBackend.Filters;
 using LeaderboardBackend.Models.Entities;
 using LeaderboardBackend.Models.Requests;
 using LeaderboardBackend.Models.ViewModels;
@@ -45,7 +44,6 @@ public class RunsController(
     [Authorize]
     [HttpPost("/category/{id:long}/runs/create")]
     [SwaggerOperation("Creates a new Run for a Category with ID `id`. This request is restricted to confirmed Users and Administrators.", OperationId = "createRun")]
-    [SwaggerOperationFilter(typeof(CustomRequestBodyFilter<CreateRunRequest>))]
     [SwaggerResponse(201)]
     [SwaggerResponse(401, "The client is not logged in.", typeof(ProblemDetails))]
     [SwaggerResponse(400, null, typeof(ValidationProblemDetails))]
