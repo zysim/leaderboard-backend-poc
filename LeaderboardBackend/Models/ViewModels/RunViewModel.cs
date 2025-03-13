@@ -15,6 +15,8 @@ public abstract record RunViewModel
     /// </summary>
     public required Guid Id { get; set; }
 
+    public required RunType RunType { get; set; }
+
     /// <summary>
     ///     User-provided details about the run.
     /// </summary>
@@ -62,7 +64,8 @@ public abstract record RunViewModel
             UpdatedAt = run.UpdatedAt,
             DeletedAt = run.DeletedAt,
             Info = run.Info,
-            Time = run.Time
+            Time = run.Time,
+            RunType = run.Type
         },
         RunType.Score => new ScoredRunViewModel
         {
@@ -74,7 +77,8 @@ public abstract record RunViewModel
             UpdatedAt = run.UpdatedAt,
             DeletedAt = run.DeletedAt,
             Info = run.Info,
-            Score = run.TimeOrScore
+            Score = run.TimeOrScore,
+            RunType = run.Type
         },
         _ => throw new NotImplementedException(),
     };
