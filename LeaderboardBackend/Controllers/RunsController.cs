@@ -46,10 +46,10 @@ public class RunsController(
     [SwaggerOperation("Creates a new Run for a Category with ID `id`. This request is restricted to confirmed Users and Administrators.", OperationId = "createRun")]
     [SwaggerResponse(201)]
     [SwaggerResponse(401, "The client is not logged in.", typeof(ProblemDetails))]
-    [SwaggerResponse(400, null, typeof(ValidationProblemDetails))]
+    [SwaggerResponse(400, Type = typeof(ValidationProblemDetails))]
     [SwaggerResponse(403, "The requesting User is unauthorized to create Runs.", typeof(ProblemDetails))]
     [SwaggerResponse(404, "The Category with ID `id` could not be found, or has been deleted. Read `title` for more information.", typeof(ProblemDetails))]
-    [SwaggerResponse(422, null, Type = typeof(ValidationProblemDetails))]
+    [SwaggerResponse(422, Type = typeof(ValidationProblemDetails))]
     public async Task<ActionResult<RunViewModel>> CreateRun(
         [FromRoute] long id,
         [FromBody] CreateRunRequest request
