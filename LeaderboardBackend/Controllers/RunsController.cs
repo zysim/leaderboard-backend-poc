@@ -135,17 +135,4 @@ public class RunsController(
 
         return Ok(CategoryViewModel.MapFrom(category));
     }
-
-    /// <summary>Throws exceptions from JsonSerializer.Deserialize.</summary>
-    private CreateRunRequest? ParseRunRequest(string bodyStr)
-    {
-        try
-        {
-            return JsonSerializer.Deserialize<CreateTimedRunRequest>(bodyStr, options.Value.JsonSerializerOptions);
-        }
-        catch
-        {
-            return JsonSerializer.Deserialize<CreateScoredRunRequest>(bodyStr, options.Value.JsonSerializerOptions);
-        }
-    }
 }
