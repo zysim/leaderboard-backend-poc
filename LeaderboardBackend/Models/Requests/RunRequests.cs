@@ -25,7 +25,7 @@ public abstract record CreateRunRequest
     /// </summary>
     /// <example>2025-01-01</example>
     [Required]
-    public required LocalDate PlayedOn { get; set; }
+    public LocalDate PlayedOn { get; set; }
 }
 
 /// <summary>
@@ -38,7 +38,7 @@ public record CreateTimedRunRequest : CreateRunRequest
     /// </summary>
     /// <example>12:34:56.999</example>
     [Required]
-    public required Duration Time { get; set; }
+    public Duration Time { get; set; }
 }
 
 /// <summary>
@@ -50,5 +50,5 @@ public record CreateScoredRunRequest : CreateRunRequest
     ///     The score achieved during the run.
     /// </summary>
     [Required]
-    public required long Score { get; set; }
+    public long Score { get; set; }
 }
