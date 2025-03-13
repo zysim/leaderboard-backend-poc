@@ -52,27 +52,3 @@ public record CreateScoredRunRequest : CreateRunRequest
     [Required]
     public required long Score { get; set; }
 }
-
-public class CreateRunRequestValidator : AbstractValidator<CreateRunRequest>
-{
-    public CreateRunRequestValidator(IClock clock) =>
-        RuleFor(x => x.PlayedOn)
-            .LessThanOrEqualTo(date => clock.GetCurrentInstant().InUtc().Date)
-            .WithMessage("{PropertyName} must not be set in the future.");
-}
-
-public class CreateTimedRunRequestValidator : AbstractValidator<CreateTimedRunRequest>
-{
-    public CreateTimedRunRequestValidator(IClock clock)
-    {
-        Include(new CreateRunRequestValidator(clock));
-        RuleFor(x => x.Time)
-            .GreaterThanOrEqualTo(Duration.Zero)
-            .WithMessage("{PropertyName} must be positive.");
-    }
-}
-
-public class CreateScoredRunRequestValidator : AbstractValidator<CreateScoredRunRequest>
-{
-    public CreateScoredRunRequestValidator(IClock clock) => Include(new CreateRunRequestValidator(clock));
-}
