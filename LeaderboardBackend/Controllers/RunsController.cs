@@ -93,7 +93,7 @@ public class RunsController(
             badRunType => UnprocessableEntity(
                 ProblemDetailsFactory.CreateProblemDetails(
                     HttpContext,
-                    null,
+                    422,
                     null,
                     null,
                     "The Run's runType did not match the category's."
