@@ -15,7 +15,7 @@ namespace LeaderboardBackend.Models.Requests;
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "runType")]
 [JsonDerivedType(typeof(CreateTimedRunRequest), nameof(RunType.Time))]
 [JsonDerivedType(typeof(CreateScoredRunRequest), nameof(RunType.Score))]
-public abstract class CreateRunRequest
+public abstract record CreateRunRequest
 {
     /// <inheritdoc cref="Entities.Run.Info" />
     public string Info { get; set; }
@@ -31,7 +31,7 @@ public abstract class CreateRunRequest
 /// <summary>
 ///     `runType: "Time"`
 /// </summary>
-public class CreateTimedRunRequest : CreateRunRequest
+public record CreateTimedRunRequest : CreateRunRequest
 {
     /// <summary>
     ///     The duration of the run. Must obey the format 'HH:mm:ss.sss', with leading zeroes.
@@ -44,7 +44,7 @@ public class CreateTimedRunRequest : CreateRunRequest
 /// <summary>
 ///     `runType: "Score"`
 /// </summary>
-public class CreateScoredRunRequest : CreateRunRequest
+public record CreateScoredRunRequest : CreateRunRequest
 {
     /// <summary>
     ///     The score achieved during the run.
