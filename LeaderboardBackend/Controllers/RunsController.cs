@@ -20,8 +20,7 @@ namespace LeaderboardBackend.Controllers;
 public class RunsController(
     IRunService runService,
     ICategoryService categoryService,
-    IUserService userService,
-    IOptions<JsonOptions> options
+    IUserService userService
     ) : ApiController
 {
     [AllowAnonymous]
