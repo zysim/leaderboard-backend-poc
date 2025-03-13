@@ -7,7 +7,7 @@ namespace LeaderboardBackend.Models.ViewModels;
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "runType")]
 [JsonDerivedType(typeof(TimedRunViewModel), "Time")]
 [JsonDerivedType(typeof(ScoredRunViewModel), "Score")]
-public record RunViewModel
+public abstract record RunViewModel
 {
     /// <summary>
     ///     The unique identifier of the `Run`.<br/>
