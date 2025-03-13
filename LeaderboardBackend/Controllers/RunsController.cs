@@ -59,62 +59,59 @@ public class RunsController(
     {
         GetUserResult res = await userService.GetUserFromClaims(HttpContext.User);
 
-        if (res.TryPickT0(out User user, out OneOf<BadCredentials, UserNotFound> _))
+        if (!res.IsT0)
         {
-            Category? category = await categoryService.GetCategory(id);
-
-            if (category is null)
-            {
-                return NotFound(
-                    ProblemDetailsFactory
-                        .CreateProblemDetails(
-                            HttpContext,
-                            404,
-                            "Category Not Found."
-                        )
-                    );
-            }
-
-            if (category.DeletedAt is not null)
-            {
-                return NotFound(
-                    ProblemDetailsFactory
-                        .CreateProblemDetails(
-                            HttpContext,
-                            404,
-                            "Category Is Deleted."
-                        )
-                    );
-            }
-
-
-                CreateRunResult r = await runService.CreateRun(user, category, request);
-                return r.Match<ActionResult>(
-                    run =>
-                    {
-                        CreatedAtActionResult result = CreatedAtAction(
-                            nameof(GetRun),
-                            new { id = run.Id.ToUrlSafeBase64String() },
-                            RunViewModel.MapFrom(run)
-                        );
-                        return result;
-                    },
-                    badRole => Forbid(),
-                    notFound => NotFound(ProblemDetailsFactory.CreateProblemDetails(HttpContext, 404, "Category Not Found or Has Been Deleted")),
-                    // TODO: This needs to be a ValidationProblemDetails, with `Details` populating `errors`
-                    unprocessable => UnprocessableEntity(
-                        ProblemDetailsFactory.CreateProblemDetails(
-                            HttpContext,
-                            null,
-                            null,
-                            null,
-                            unprocessable.Detail
-                        )
-                    )
-                );
+            return Unauthorized();
         }
 
-        return Unauthorized();
+        Category? category = await categoryService.GetCategory(id);
+
+        if (category is null)
+        {
+            return NotFound(
+                ProblemDetailsFactory.CreateProblemDetails(
+                    HttpContext,
+                    404,
+                    "Category Not Found."
+                )
+            );
+        }
+
+        if (category.DeletedAt is not null)
+        {
+            return NotFound(
+                ProblemDetailsFactory.CreateProblemDetails(
+                    HttpContext,
+                    404,
+                    "Category Is Deleted."
+                )
+            );
+        }
+
+        CreateRunResult r = await runService.CreateRun(res.AsT0, category, request);
+
+        return r.Match<ActionResult>(
+            run =>
+            {
+                CreatedAtActionResult result = CreatedAtAction(
+                    nameof(GetRun),
+                    new { id = run.Id.ToUrlSafeBase64String() },
+                    RunViewModel.MapFrom(run)
+                );
+                return result;
+            },
+            badRole => Forbid(),
+            // TODO: This needs to be a ValidationProblemDetails, with `Details` populating `errors`
+            badRunType => UnprocessableEntity(
+                ProblemDetailsFactory.CreateProblemDetails(
+                    HttpContext,
+                    null,
+                    null,
+                    null,
+                    "The Run's runType did not match the category's."
+                )
+            )
+        );
     }
 
     [AllowAnonymous]
