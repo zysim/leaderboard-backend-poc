@@ -279,7 +279,7 @@ namespace LeaderboardBackend.Test
                     },
                     Jwt = _jwt,
                 }
-            )).Should().ThrowAsync<RequestFailureException>().Where(e => e.Response.StatusCode == HttpStatusCode.UnprocessableContent);
+            )).Should().ThrowAsync<RequestFailureException>().Where(e => e.Response.StatusCode == HttpStatusCode.BadRequest);
         }
 
         [Test]
