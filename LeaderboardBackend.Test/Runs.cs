@@ -203,8 +203,10 @@ namespace LeaderboardBackend.Test
                 {
                     Body = new
                     {
+                        RunType = nameof(RunType.Time),
                         PlayedOn = "2025-01-01",
                         Info = "",
+                        Time = Duration.FromMinutes(12)
                     },
                     Jwt = _jwt,
                 }
@@ -241,8 +243,10 @@ namespace LeaderboardBackend.Test
                 {
                     Body = new
                     {
+                        RunType = nameof(RunType.Time),
                         PlayedOn = "2025-01-01",
                         Info = "",
+                        Time = Duration.FromMinutes(39)
                     },
                     Jwt = _jwt,
                 }
