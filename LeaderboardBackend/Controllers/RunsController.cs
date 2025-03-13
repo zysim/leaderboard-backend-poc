@@ -39,13 +39,7 @@ public class RunsController(
             return NotFound();
         }
 
-        // This is needed because of what we think is a bug with serialisation. The "runType" field
-        // doesn't show up in the response if we simply return Ok(RunViewModel.MapFrom(run)).
-        // And we want that field present for consumers to better discriminate what they're getting.
-        return Content(
-            JsonSerializer.Serialize(RunViewModel.MapFrom(run), options.Value.JsonSerializerOptions),
-            MediaTypeNames.Application.Json
-        );
+        return Ok(RunViewModel.MapFrom(run));
     }
 
     [Authorize]
