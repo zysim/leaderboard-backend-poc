@@ -1,18 +1,9 @@
-using System.Net.Mime;
-using System.Text.Json;
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using FluentValidation.Results;
 using LeaderboardBackend.Models.Entities;
 using LeaderboardBackend.Models.Requests;
 using LeaderboardBackend.Models.ViewModels;
-using LeaderboardBackend.Result;
 using LeaderboardBackend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions.Options;
-using OneOf;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace LeaderboardBackend.Controllers;
