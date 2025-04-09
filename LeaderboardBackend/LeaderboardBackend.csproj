@@ -46,6 +46,7 @@
     <PackageReference Include="NodaTime.Serialization.SystemTextJson" Version="1.2.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" Version="8.0.4" />
+    <PackageReference Include="NRedisStack" Version="0.13.2" />
     <PackageReference Include="OneOf" Version="3.0.271" />
     <PackageReference Include="OneOf.SourceGenerator" Version="3.0.271" />
     <PackageReference Include="ReHackt.Extensions.Options.Validation" Version="8.0.2" />

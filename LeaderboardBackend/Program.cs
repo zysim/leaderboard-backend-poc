@@ -26,6 +26,7 @@ using Microsoft.OpenApi.Models;
 using NodaTime;
 using NodaTime.Serialization.SystemTextJson;
 using Npgsql;
+using StackExchange.Redis;
 
 #region WebApplicationBuilder
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -97,6 +98,31 @@ builder.Services.AddDbContext<ApplicationContext>(
         }
     }
 );
+
+// Configure Redis instance
+builder.Services.AddSingleton((services) =>
+{
+    RedisContextConfig config = services
+        .GetRequiredService<IOptions<RedisContextConfig>>()
+        .Value;
+
+    if (config.Rd is not null)
+    {
+        return ConnectionMultiplexer.Connect(new ConfigurationOptions()
+        {
+            EndPoints = { $"{config.Rd.Host}:${config.Rd.Port}" },
+            User = config.Rd.User,
+            Password = config.Rd.Password,
+        })
+            .GetDatabase();
+    }
+    else
+    {
+        throw new UnreachableException(
+            "The Redis configuration is invalid but it was not caught by validation!"
+        );
+    }
+});
 
 // Add services to the container.
 builder.Services.AddScoped<IUserService, UserService>();
