@@ -578,7 +578,7 @@ namespace LeaderboardBackend.Test
             {
                 Email = email,
                 Password = "Passw0rd",
-                Username = $"UpdateCatTest{role}"
+                Username = $"UpdateRunTest{role}"
             };
 
             User user = (await users.CreateUser(registerRequest)).AsT0;
