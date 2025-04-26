@@ -579,11 +579,12 @@ namespace LeaderboardBackend.Test
                 Username = $"UpdateRunTest{role}"
             };
 
-            User user = (await users.CreateUser(registerRequest)).AsT0;
+            CreateUserResult result = await users.CreateUser(registerRequest);
+            result.IsT0.Should().BeTrue();
 
             // Log user in first to get their token before updating their role.
             LoginResponse res = await _apiClient.LoginUser(registerRequest.Email, registerRequest.Password);
-
+            User user = result.AsT0;
             context.Update(user!);
             user!.Role = role;
             await context.SaveChangesAsync();
