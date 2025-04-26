@@ -570,8 +570,6 @@ namespace LeaderboardBackend.Test
             context.Add(created);
             await context.SaveChangesAsync();
             created.Id.Should().NotBe(Guid.Empty);
-            context.ChangeTracker.Clear();
-
             string email = $"testuser.updaterun.{role}@example.com";
 
             RegisterRequest registerRequest = new()
@@ -603,6 +601,7 @@ namespace LeaderboardBackend.Test
                 }
             )).Should().ThrowAsync<RequestFailureException>().Where(e => e.Response.StatusCode == HttpStatusCode.Forbidden);
 
+            context.ChangeTracker.Clear();
             Run? retrieved = await context.FindAsync<Run>(created.Id);
             retrieved!.Info.Should().BeEmpty();
         }
