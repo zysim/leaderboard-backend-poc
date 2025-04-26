@@ -582,7 +582,7 @@ namespace LeaderboardBackend.Test
             User user = (await users.CreateUser(registerRequest)).AsT0;
 
             // Log user in first to get their token before updating their role.
-            LoginResponse res = await _apiClient.LoginUser(user.Email, user.Password);
+            LoginResponse res = await _apiClient.LoginUser(registerRequest.Email, registerRequest.Password);
 
             context.Update(user!);
             user!.Role = role;
