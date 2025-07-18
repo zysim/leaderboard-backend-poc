@@ -44,12 +44,12 @@ public class UsersController(IUserService userService) : ApiController
     [SwaggerResponse(422, Type = typeof(ValidationProblemDetails))]
     public async Task<ActionResult<ListView<UserViewModel>>> GetUsers(
         [FromQuery] Page page,
-        [FromQuery] HashSet<UserRole> role)
+        [FromQuery] UserRole role)
     {
-        if (role.IsNullOrEmpty())
-        {
-            role.AddRange([UserRole.Administrator, UserRole.Confirmed, UserRole.Registered]);
-        }
+        // if (role.IsNullOrEmpty())
+        // {
+        //     role.AddRange([UserRole.Administrator, UserRole.Confirmed, UserRole.Registered]);
+        // }
 
         ListResult<User> result = await userService.ListUsers(page, role);
         return Ok(new ListView<UserViewModel>()

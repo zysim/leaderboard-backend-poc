@@ -1900,11 +1900,11 @@
             "name": "role",
             "in": "query",
             "schema": {
-              "uniqueItems": true,
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/UserRole"
-              }
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/UserRole"
+                }
+              ]
             }
           }
         ],
