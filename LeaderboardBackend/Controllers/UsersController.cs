@@ -37,7 +37,7 @@ public class UsersController(IUserService userService) : ApiController
     [Authorize(Policy = UserTypes.ADMINISTRATOR)]
     [HttpGet("/users")]
     [Paginated]
-    [SwaggerOperation("Gets users. Includes banned users, if specified.", OperationId = "listUsers")]
+    [SwaggerOperation("Gets users, filtered by role.", OperationId = "listUsers")]
     [SwaggerResponse(200)]
     [SwaggerResponse(401)]
     [SwaggerResponse(403)]
