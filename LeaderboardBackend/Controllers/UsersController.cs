@@ -7,8 +7,6 @@ using LeaderboardBackend.Result;
 using LeaderboardBackend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using NuGet.Packaging;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace LeaderboardBackend.Controllers;
