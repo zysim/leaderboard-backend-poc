@@ -8,7 +8,7 @@ using NodaTime;
 namespace LeaderboardBackend.Models.Entities;
 
 [Flags]
-public enum UserRole : short
+public enum UserRole
 {
     Registered = 1,
     Confirmed = 2,
