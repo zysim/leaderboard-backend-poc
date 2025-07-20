@@ -49,11 +49,6 @@ public class UsersController(IUserService userService) : ApiController
             SwaggerParameter("Multiple comma-separated values are allowed.")
         ] UserRole role = UserRole.Confirmed | UserRole.Administrator)
     {
-        // if (role.IsNullOrEmpty())
-        // {
-        //     role.AddRange([UserRole.Administrator, UserRole.Confirmed, UserRole.Registered]);
-        // }
-
         ListResult<User> result = await userService.ListUsers(page, role);
         return Ok(new ListView<UserViewModel>()
         {
