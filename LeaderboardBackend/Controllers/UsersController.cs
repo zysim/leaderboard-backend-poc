@@ -44,7 +44,10 @@ public class UsersController(IUserService userService) : ApiController
     [SwaggerResponse(422, Type = typeof(ValidationProblemDetails))]
     public async Task<ActionResult<ListView<UserViewModel>>> GetUsers(
         [FromQuery] Page page,
-        [FromQuery] UserRole role)
+        [
+            FromQuery,
+            SwaggerParameter("Multiple comma-separated values are allowed.")
+        ] UserRole role = UserRole.Confirmed | UserRole.Administrator)
     {
         // if (role.IsNullOrEmpty())
         // {
