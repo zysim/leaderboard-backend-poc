@@ -69,9 +69,10 @@ public class UserService(ApplicationContext applicationContext, IAuthService aut
             user => user.Username == name && user.Email == email
         );
 
-    public async Task<ListResult<User>> ListUsers(Page page, UserRole roles)
+    public async Task<ListResult<User>> ListUsers(Page page, UserRole roleFlags)
     {
-        IQueryable<User> query = applicationContext.Users.Where(u => (u.Role & roles) != 0);
+        IEnumerable<UserRole> roles = roleFlags.GetFlagValues();
+        IQueryable<User> query = applicationContext.Users.Where(u => roles.Contains(u.Role));
         long count = await query.LongCountAsync();
 
         List<User> items = await query
