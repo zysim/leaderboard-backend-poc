@@ -13,8 +13,7 @@ public enum UserRole
     Registered = 1,
     Confirmed = 2,
     Administrator = 4,
-    Banned = 8,
-    All = 15
+    Banned = 8
 }
 
 /// <summary>
